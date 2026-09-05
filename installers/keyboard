@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+source "${BASH_SOURCE%/*}/../lib/_"
+
+dotheader "KEYBOARD"
+
+require_installer package-manager
+require_installer langs/haskell
+
+function install_qmk_firmware() {
+    dotlib_git_clone_recursive  \
+        $HOME/code/firmware     \
+        "qmk-firmware"          \
+        git@github.com:molleweide/qmk_firmware.git
+    }
+function install_kmonad() {
+    local install_dir=$HOME/code/tools
+    dotlib_git_clone_recursive  \
+        $install_dir            \
+        "kmonad"                \
+        git@github.com:molleweide/kmonad.git
+
+    pushd $install_dir/kmonad > /dev/null 2>&1
+    if is_macos; then
+        # stack clean
+        if is_apple_silicone; then
+            stack install --flag kmonad:dext --arch=aarch64 --extra-include-dirs=c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/include/pqrs/karabiner/driverkit:c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/src/Client/vendor/include
+        else
+            stack install --flag kmonad:dext --extra-include-dirs=c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/include/pqrs/karabiner/driverkit:c_src/mac/Karabiner-DriverKit-VirtualHIDDevice/src/Client/vendor/include
+        fi
+    fi
+    popd > /dev/null 2>&1
+}
+
+brew_install llvm
+install_qmk_firmware
+install_kmonad

@@ -1,0 +1,47 @@
+@document.meta
+	title: TODO
+	description:
+	author: hjalmarjakobsson
+	categories:
+	created: 2021-09-01
+	version: 0.1
+@end
+
+* GOOD READS
+https://wiki.archlinux.org/title/XDG_Base_Directory
+https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/
+https://www.reddit.com/r/zsh/comments/e882c4/what_is_the_difference_between_zshrc_and_zprofile/
+
+
+
+* PYTHON VIRTUALENV!!!!!!
+
+*
+
+* XDG
+ ** zsh
+ ** antigen
+ ** 16shell
+
+* update
+ ** source lib in installer files
+
+* submodules | move DOOM and NVIM
+ ** but this time instead of moving
+    add new submodules to these locations
+
+* MAKEFILE | https://makefiletutorial.com/
+
+* custom installer
+ ** vimac
+
+* keyboard build
+  refactor git functions
+
+* RUBY read | https://github.com/ruby/irb/issues/277
+  https://wiki.archlinux.org/title/RVM
+  https://wiki.archlinux.org/title/Ruby#RubyGems
+
+* rename nvim configs to nvim-***
+
+* hammerspoon > make sure each submodule is my own fork

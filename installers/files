@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+source "${BASH_SOURCE%/*}/../lib/_"
+
+# FILE MANAGEMENT AND SEARCHING
+
+dotheader "SETTING UP FILE MANAGERS AND SEARCH.."
+
+require_installer package-manager
+
+if is_macos; then
+
+  # file managers
+  brew_install ranger
+  brew_install nnn
+  brew_install lf
+  brew_install fff
+  # https://github.com/sayanarijit/xplr
+
+  # search
+  brew_install dmenu-mac
+
+elif is_linux; then
+  apt_install ranger
+fi

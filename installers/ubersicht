@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+source "${BASH_SOURCE%/*}/../lib/_"
+
+# https://github.com/Mortennn/Dozer
+# https://github.com/exelban/stats
+# https://github.com/matryer/xbar
+# https://github.com/chrisshiplet/btcbar
+# https://github.com/igorkulman/ChangeMenuBarColor
+# https://github.com/blaadje/fancyBar#readme
+# https://github.com/apierz/nerdbar.widget
+# https://github.com/Jean-Tinland/simple-bar
+# https://github.com/kkga/nibar
+
+
+# local user=$1
+# local name=$2
+# local url="https://github.com/$user/$name.git"
+# local prefix="ubersicht"
+# local full_name=$prefix-$name.widget
+# local dest=$HOME/code/$full_name
+# not working form me
+function uber_widget() {
+    local alt_name=$1
+    local uber_repo=$2
+    local install_dir=$HOME/code/widgets
+    local WIDGET_DIR="$HOME/Library/Application Support/Übersicht/widgets"
+
+    dotlib_git_clone_recursive  \
+        $install_dir            \
+        $alt_name               \
+        $uber_repo
+
+    ln -s $install_dir/$alt_name $WIDGET_DIR/$alt_name
+}
+
+dotheader "SETTING UP UBERSICHT.."
+
+if is_macos; then
+    require_installer package-manager
+    brew_install ubersicht
+    uber_widget "uber-yabai-bar"  "git@github.com:molleweide/yabai-uberbar.git"
+    uber_widget "uber-weather"    "git@github.com:molleweide/weather-widget.git"
+    uber_widget "uber-collection" "git@github.com:molleweide/uebersicht-widgets.git"
+fi

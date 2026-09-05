@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+source "${BASH_SOURCE%/*}/../lib/_"
+
+# NOTE: WEB BROWSERS
+#
+# https://github.com/fanglingsu/vimb
+# https://github.com/qutebrowser/qutebrowser
+# https://github.com/atlas-engineer/nyxt
+# https://github.com/Jelmerro/Vieb
+# https://github.com/alexherbo2/krabby
+#
+# TODO: brew install nyxt??
+# TODO: tor browser
+#       install and verify tor browser
+
+# https://www.youtube.com/watch?v=AZERfhHo8w4
+
+
+function install_tor_browser() {
+    local tor="xyz"
+}
+
+function install_surfingkeys() {
+    dotlib_git_clone_recursive  \
+        $HOME/code/web          \
+        "Surfingkeys"           \
+        git@github.com:molleweide/Surfingkeys.git
+
+    pushd $HOME/code/web/Surfingkeys > /dev/null 2>&1
+    git checkout molleweide
+    npm install
+    npm run build
+    popd > /dev/null 2>&1
+}
+
+# TODO: why this have to be under common-lisp?
+#       it would be nice to but under code/apps/nyxt
+#       together with neovim
+function install_nyxt_macos() {
+    if [ ! -d ~/common-lisp ]; then
+        mkdir -p ~/common-lisp
+        git clone https://github.com/atlas-engineer/nyxt ~/common-lisp/nyxt
+    else
+        dotsay "+ ~/common-lisp already exists"
+    fi
+}
+
+function install_aur_libfixposix() {
+    local install_path=$HOME/code/libfixposix
+    local git_src="https://aur.archlinux.org/libfixposix.git"
+
+    git clone $git_src $install_path
+
+    pushd $install_path > /dev/null 2>&1
+    makepkg -si
+    popd > /dev/null 2>&1
+}
+
+function install_aur_nyxt() {
+    local install_path=$HOME/code/nyxt
+    local git_src="https://aur.archlinux.org/nyxt.git"
+
+    git clone $git_src $install_path
+
+    pushd $install_path > /dev/null 2>&1
+    makepkg -si
+    popd > /dev/null 2>&1
+}
+
+
+install_firefox() {
+    local url="https://download.mozilla.org/?product=firefox-latest-ssl&os=osx&lang=en-US"
+    install_simple_dmg_copy "Firefox" "$url"
+}
+install_firefox_dev() {
+    local url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=osx&lang=en-US"
+    install_simple_dmg_copy "Firefox Developer Edition" "$url"
+}
+install_brave() {
+    if is_macos; then
+        if is_apple_silicone; then
+            local url="https://laptop-updates.brave.com/latest/osxarm64/release"
+            install_simple_dmg_copy "Brave" "$url"
+        else
+            local url="https://laptop-updates.brave.com/latest/osx/release"
+            install_simple_dmg_copy "Brave Browser" "$url"
+        fi
+    fi
+}
+
+dotheader "SETTING UP WEB BROWSERS.."
+
+if is_macos; then
+    # require_installer package-manager
+
+    # install_firefox
+    # install_firefox_dev
+    install_brave
+    # install_vivaldi
+    brew_cask_install qutebrowser
+    # install_nyxt_macos
+    # install_tor_browser
+
+    install_surfingkeys
+fi
+
+if is_linux; then
+
+  # https://aur.archlinux.org/packages/?O=0&SeB=nd&K=nyxt&outdated=&SB=n&SO=a&PP=50&do_Search=Go
+  # https://github.com/atlas-engineer/nyxt/blob/master/documents/README.org
+  # https://averagelinuxuser.com/install-aur-manually-helpers/
+  install_aur_libfixposix
+  install_aur_nyxt
+fi
